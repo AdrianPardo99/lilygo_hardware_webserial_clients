@@ -221,6 +221,13 @@ function clearTerminal(): void {
   ignoredCount.value = 0;
 }
 
+function clearAll(): void {
+  lteRows.value = [];
+  wifiRows.value = [];
+  bleRows.value = [];
+  clearTerminal();
+}
+
 function downloadRows(type: 'lte'): void;
 function downloadRows(type: 'wifi'): void;
 function downloadRows(type: 'ble'): void;
@@ -290,6 +297,12 @@ function loadSample(): void {
       <span>{{ ignoredCount }} zero-coordinate rows ignored</span>
       <button type="button" class="ghost" @click="loadSample">Load sample</button>
       <button type="button" class="ghost" @click="clearTerminal">Clear terminal</button>
+      <button
+        type="button"
+        class="ghost"
+        :disabled="lteRows.length === 0 && wifiRows.length === 0 && bleRows.length === 0 && rawLogs.length === 0 && ignoredCount === 0"
+        @click="clearAll"
+      >Clear all</button>
     </section>
 
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
