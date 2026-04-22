@@ -242,13 +242,8 @@ function loadSample(): void {
     '[modem] AT sync OK',
     '[gps] GPS power enabled',
     'Source,Timestamp,Tecnología,Estado,MCC,MNC,LAC,CellID,Banda,RSSI,RSRP,RSRQ,SINR,Operador,Longitud,Latitud',
-    'lte,,LTE,0,334,020,1201,390112,3,-73,-101,-10,9,Telcel,-99.1332090,19.4326080',
-    'lte,,LTE,0,0,0,0,0,0,0,0,0,0,,0.0000000,0.0000000',
     'Source,Timestamp,Lat,Long,SSID,BSSID,Canal,Señal,Seguridad',
-    'wifi,,19.4326080,-99.1332090,TOTALPLAY_ECBA0B,34:6B:46:EC:BA:0B,11,-53,WPA2_PSK',
-    'wifi,,0.0000000,0.0000000,Home,18:A6:F7:BF:71:72,2,-57,WPA_WPA2_PSK',
     'Source,Timestamp,Lat,Long,Dirección,RSSI,Nombre',
-    'ble,,19.4326080,-99.1332090,80:E1:26:76:33:64,-65,d3vnull0',
     '[ble] logged 1 devices'
   ];
 
@@ -298,7 +293,21 @@ function loadSample(): void {
     </section>
 
     <p v-if="errorMessage" class="error">{{ errorMessage }}</p>
-
+    <section class="terminal-section">
+      <header>
+        <div>
+          <p class="eyebrow">Raw serial</p>
+          <h2>{{ rawLogs.length }} lines</h2>
+        </div>
+      </header>
+      <div ref="terminalRef" class="terminal" aria-live="polite">
+        <p v-if="rawLogs.length === 0" class="empty">Connect a device or load the sample data.</p>
+        <p v-for="line in rawLogs" :key="line.id">
+          <span>{{ line.receivedAt }}</span>
+          {{ line.text }}
+        </p>
+      </div>
+    </section>
     <section class="tables-grid">
       <article class="scan-section">
         <header>
@@ -420,22 +429,6 @@ function loadSample(): void {
           </table>
         </div>
       </article>
-    </section>
-
-    <section class="terminal-section">
-      <header>
-        <div>
-          <p class="eyebrow">Raw serial</p>
-          <h2>{{ rawLogs.length }} lines</h2>
-        </div>
-      </header>
-      <div ref="terminalRef" class="terminal" aria-live="polite">
-        <p v-if="rawLogs.length === 0" class="empty">Connect a device or load the sample data.</p>
-        <p v-for="line in rawLogs" :key="line.id">
-          <span>{{ line.receivedAt }}</span>
-          {{ line.text }}
-        </p>
-      </div>
     </section>
   </main>
 </template>
